@@ -6,19 +6,25 @@ class Auth {
 final FirebaseAuth _firebaseAuth=FirebaseAuth.instance;
 User? get currentUser=> _firebaseAuth.currentUser;
 Stream<User?> get authStateChanges=>_firebaseAuth.authStateChanges();
+
+//method for signing via EmailPassword 
 Future<void> signInWithEmailAndPassword({
   required String email,
   required String password,
 
 }) async{
-  await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+  await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password, );
 }
+
+//method for signUp via email password
 Future<void> createUserWithEmailAndPassword({
   required String email,
   required String password
 }) async{
   await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 }
+
+//method for signing via direct google
 Future signInWithGoogle()async{
   final GoogleSignInAccount? googleUser= await GoogleSignIn(
     scopes: <String> ["email"]).signIn();
@@ -28,6 +34,15 @@ Future signInWithGoogle()async{
   idToken: googleAuth.idToken);
   return await FirebaseAuth.instance.signInWithCredential(credential);
 }
+//method for getting token
+Future<String?> getDeviceToken() async {
+  String? token;
+   await currentUser!.getIdTokenResult().then((result){
+      token=result.token.toString();
+    });
+    return  token;
+}
+//method for signOut
 Future<void> signOut() async{
   await _firebaseAuth.signOut();
 }

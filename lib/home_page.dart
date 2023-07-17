@@ -3,10 +3,29 @@ import 'package:flutter/material.dart';
 
 import 'auth.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final User? user = Auth().currentUser;
+  String token = '';
+  //why we need this method ? since we can not call future function directly in to the inItState
+  getToken()async{
+     token = await Auth().getDeviceToken() ?? '';
+    setState(() {
+    });
+  }
+  @override
+  initState(){
+    getToken();
+    super.initState();
+  
+
+  }
 
   Future<void> signOut() async {
     await Auth().signOut();
@@ -27,12 +46,17 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _userToken(){
+    return Text(user!.getIdToken() as String);
+  }
+
   Widget _signOutButton() {
     return ElevatedButton(
       onPressed: signOut,
       child: const Text('Sign Out'),
     );
   }
+
   Widget _shaveUrlButton(){
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -96,7 +120,7 @@ class HomePage extends StatelessWidget {
             },
           );
         },
-        child: Text("Add Link"));
+        child:const Text("Add Link"));
   }
 
   Widget _linkSection(String title) {
@@ -105,7 +129,7 @@ class HomePage extends StatelessWidget {
       child: Container(
         height: 60,
         width: double.infinity,
-        decoration: BoxDecoration(
+        decoration:const BoxDecoration(
           color: Colors.greenAccent,
           borderRadius: BorderRadius.all(
             Radius.circular(10),
@@ -114,27 +138,25 @@ class HomePage extends StatelessWidget {
         child: Center(
             child: Text(
           title,
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+          style:const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
         )),
       ),
     );
   }
 
   // Widget AddLinkWidget(){
-  //   return  BottomSheet(onClosing: onClosing, builder: builder);
-  // }
-
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: _title(),
       ),
-      body: Container(
-        color: Color.fromARGB(94, 68, 252, 12),
+      body:  Container(
+        color: const Color.fromARGB(94, 68, 252, 12),
         height: double.infinity,
         width: double.infinity,
-        padding: EdgeInsets.all(20),
+        padding:const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -143,13 +165,19 @@ class HomePage extends StatelessWidget {
             _userUid(),
             _signOutButton(),
             _addLinkButton(context),
-            SizedBox(
+          const  SizedBox(
               height: 20,
             ),
-            _linkSection("InstaGram"),
-            _linkSection("YouTube"),
-            _linkSection("SnapChat"),
-            // _linkSection("SnapChat"),
+            // _linkSection("InstaGram"),
+            // _linkSection("YouTube"),
+           
+            InkWell(
+              
+              child: _linkSection("log"),
+              onTap: (){
+
+              }),
+            _linkSection("Token $token "),
             // _linkSection("SnapChat"),
             // _linkSection("SnapChat"),
           ],

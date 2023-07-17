@@ -22,16 +22,16 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController _controllerPassword = TextEditingController();
   //method for sign in with email and password
-  Future<void> signInWithEmailAndPassword() async {
-    try {
-      await Auth().signInWithEmailAndPassword(
-          email: _controllerEmail.text, password: _controllerPassword.text);
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
-  }
+  // Future<void> signInWithEmailAndPassword() async {
+  //   try {
+  //     await Auth().signInWithEmailAndPassword(
+  //         email: _controllerEmail.text, password: _controllerPassword.text);
+  //   } on FirebaseAuthException catch (e) {
+  //     setState(() {
+  //       errorMessage = e.message;
+  //     });
+  //   }
+  // }
 
   //method for creating user and password
   Future<void> createUserWithEmailAndPassword() async {
@@ -68,8 +68,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget _submitButton() {
     return ElevatedButton(
         onPressed: isLogin
-            ? signInWithEmailAndPassword
-            : createUserWithEmailAndPassword,
+            ? () => Auth().signInWithEmailAndPassword(email: _controllerEmail.text, password: _controllerPassword.text)
+            : () => Auth().createUserWithEmailAndPassword(email: _controllerEmail.text, password: _controllerPassword.text),
         child: Text(isLogin ? "Logn" : "Register"));
   }
 
