@@ -1,6 +1,7 @@
 
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 class Auth {
 final FirebaseAuth _firebaseAuth=FirebaseAuth.instance;
@@ -41,6 +42,25 @@ Future<String?> getDeviceToken() async {
       token=result.token.toString();
     });
     return  token;
+}
+String verificationId="";
+
+veryfyPhoneNumber(String phoneNumner)async {
+  await _firebaseAuth.verifyPhoneNumber(
+    phoneNumber: phoneNumner,
+    timeout: Duration(seconds: 60),
+    verificationCompleted: (AuthCredential authCredential){
+      
+    },
+     verificationFailed: (FirebaseAuthException exception){}, 
+     codeSent: (String? verId, int? codeForceReSend){
+      verificationId=verId!;
+     }, 
+     codeAutoRetrievalTimeout: (String verId){});
+}
+
+signInWithPhone(String smsCode)async{
+ return await _firebaseAuth.signInWithCredential(PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode));
 }
 //method for signOut
 Future<void> signOut() async{

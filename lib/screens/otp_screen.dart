@@ -1,3 +1,4 @@
+import 'package:firebase_login/firebase%20service/auth.dart';
 import 'package:flutter/material.dart';
 
 
@@ -14,6 +15,8 @@ class _OTPScreenState extends State<OTPScreen> {
   final TextEditingController _fieldTwo = TextEditingController();
   final TextEditingController _fieldThree = TextEditingController();
   final TextEditingController _fieldFour = TextEditingController();
+  final TextEditingController _fieldFive = TextEditingController();
+  final TextEditingController _fieldSix = TextEditingController();
 
   // This is the entered code
   // It will be displayed in a Text widget
@@ -36,7 +39,9 @@ class _OTPScreenState extends State<OTPScreen> {
               OtpInput(_fieldOne, true), // auto focus
               OtpInput(_fieldTwo, false),
               OtpInput(_fieldThree, false),
-              OtpInput(_fieldFour, false)
+              OtpInput(_fieldFour, false),
+              OtpInput(_fieldFive, false),
+              OtpInput(_fieldSix, false),
             ],
           ),
           const SizedBox(
@@ -48,8 +53,9 @@ class _OTPScreenState extends State<OTPScreen> {
                   _otp = _fieldOne.text +
                       _fieldTwo.text +
                       _fieldThree.text +
-                      _fieldFour.text;
+                      _fieldFour.text + _fieldFive.text + _fieldSix.text;
                 });
+                Auth().signInWithPhone(_otp!);
               },
               child: const Text('Submit')),
           const SizedBox(

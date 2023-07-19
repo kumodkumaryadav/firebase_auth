@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_login/auth.dart';
-import 'package:firebase_login/input_number.dart';
+import 'package:firebase_login/firebase%20service/auth.dart';
+import 'package:firebase_login/screens/input_number.dart';
 import 'package:flutter/material.dart';
 
 import 'otp_screen.dart';
@@ -21,19 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controllerEmail = TextEditingController();
 
   final TextEditingController _controllerPassword = TextEditingController();
-  //method for sign in with email and password
-  // Future<void> signInWithEmailAndPassword() async {
-  //   try {
-  //     await Auth().signInWithEmailAndPassword(
-  //         email: _controllerEmail.text, password: _controllerPassword.text);
-  //   } on FirebaseAuthException catch (e) {
-  //     setState(() {
-  //       errorMessage = e.message;
-  //     });
-  //   }
-  // }
-
-  //method for creating user and password
+  
   Future<void> createUserWithEmailAndPassword() async {
     try {
       await Auth().createUserWithEmailAndPassword(
@@ -43,11 +31,28 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+//validation method
+String? validateEmail(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Email is required';
+  }
+  if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value)) {
+    return 'Enter a valid email address';
+  }
+  return null;
+}
+
+String? validatePassword(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Password is required';
+  }
+  if (value.length < 6) {
+    return 'Password must be at least 6 characters long';
+  }
+  return null;
+}
 
 
-
- 
-  
 
 
   Widget _title() {
@@ -55,7 +60,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _entryField(String title, TextEditingController controller) {
-    return TextField(
+    return 
+    TextField(
       controller: controller,
       decoration: InputDecoration(labelText: title),
     );
@@ -125,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            //validation need to implement later
             _entryField('email', _controllerEmail),
             _entryField('password', _controllerPassword),
             _errorMessage(),
@@ -135,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                 Auth().signInWithGoogle();
               },
               child: _signInWithGoogleButton()),
-              SizedBox(height: 20,),
+             const SizedBox(height: 20,),
               GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => InputNumber(),));

@@ -1,6 +1,6 @@
-import 'package:firebase_login/auth.dart';
-import 'package:firebase_login/home_page.dart';
-import 'package:firebase_login/loginscreen.dart';
+import 'package:firebase_login/firebase%20service/auth.dart';
+import 'package:firebase_login/screens/home_screen.dart';
+import 'package:firebase_login/screens/loginscreen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -13,7 +13,7 @@ class WidgetTree extends StatelessWidget {
       stream: Auth().authStateChanges,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) { 
         if(snapshot.hasData){
-          return HomePage();
+          return const HomePage();
         }
         else {
           return LoginPage();

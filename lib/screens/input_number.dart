@@ -1,6 +1,9 @@
+import 'package:firebase_login/firebase%20service/auth.dart';
 import 'package:flutter/material.dart';
 
 import 'otp_screen.dart';
+
+
 
 
 class InputNumber extends StatelessWidget {
@@ -18,8 +21,8 @@ class InputNumber extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-                Text("Enter Your Mobile Number",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
-                SizedBox(height: 20,),
+               const Text("Enter Your Mobile Number",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+                const SizedBox(height: 20,),
                 TextField(
                    autofocus: true,
                   keyboardType: TextInputType.number,
@@ -29,17 +32,18 @@ class InputNumber extends StatelessWidget {
                     hintText: "ENTER NUMBER ",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.orange
                       )
                     )
                   ),
                 ),
-                SizedBox(height: 20,),
+               const SizedBox(height: 20,),
                 ElevatedButton(onPressed: (){
+                  Auth().veryfyPhoneNumber("+91${_controllerNumber.text}");
                   Navigator.push(context, MaterialPageRoute(builder: (context) => OTPScreen(),));
 
-                }, child: Text("Submit"))
+                }, child: const Text("Submit"))
                 
             ],
             
