@@ -54,8 +54,9 @@ class _OTPScreenState extends State<OTPScreen> {
                       _fieldTwo.text +
                       _fieldThree.text +
                       _fieldFour.text + _fieldFive.text + _fieldSix.text;
-                });
                 Auth().signInWithPhone(_otp!);
+
+                });
               },
               child: const Text('Submit')),
           const SizedBox(
